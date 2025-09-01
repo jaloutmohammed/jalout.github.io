@@ -191,11 +191,33 @@
         $$\int_a^b u'v = [uv]_a^b - \int_a^b uv'.$$
       </p>
 
-      <div class="exercice">
-        <span class="badge">Exercice</span>
-        Calculer $\displaystyle \int_0^1 x\ln(1+x)\,dx$.
-        <details><summary>Indice</summary>Poser $u=\ln(1+x)$, $v=\frac{x^2}{2}$.</details>
-      </div>
+     <div class="exercice">
+    <span class="badge">Exercice</span>
+    Calculer $\displaystyle \int_0^1 x\ln(1+x)\,dx$.
+    <details>
+        <summary>Indice</summary>
+        Poser $u=\ln(1+x)$, $v=\frac{x^2}{2}$.
+    </details>
+    <details>
+        <summary>Solution</summary>
+        On pose $u = \ln(1+x)$ et $dv = x\,dx$, donc $du = \frac{1}{1+x} dx$ et $v = \frac{x^2}{2}$.  
+        Par intégration par parties :
+        \[
+        \int_0^1 x\ln(1+x)\,dx = \left[ \frac{x^2}{2} \ln(1+x) \right]_0^1 - \int_0^1 \frac{x^2}{2} \cdot \frac{1}{1+x} dx
+        \]
+        \[
+        = \frac{1}{2} \ln 2 - \frac{1}{2} \int_0^1 \frac{x^2}{1+x} dx
+        \]
+        On simplifie le second terme : $\frac{x^2}{1+x} = x - 1 + \frac{1}{1+x}$, donc
+        \[
+        \int_0^1 \frac{x^2}{1+x} dx = \int_0^1 (x-1+\frac{1}{1+x}) dx = \left[\frac{x^2}{2} - x + \ln(1+x)\right]_0^1 = \frac{1}{2} - 1 + \ln 2 = -\frac{1}{2} + \ln 2
+        \]
+        Donc
+        \[
+        \int_0^1 x\ln(1+x)\,dx = \frac{1}{2} \ln 2 - \frac{1}{2}\left(-\frac{1}{2} + \ln 2\right) = \frac{1}{4}.
+        \]
+    </details>
+</div>
 
       <h2 id="python">Bloc de code (Python)</h2>
       <pre><code># Somme des chiffres sans str
