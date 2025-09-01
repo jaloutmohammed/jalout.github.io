@@ -1,35 +1,261 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mon site GitHub Pages</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MathNotes — Site type Bibmath</title>
+  <meta name="description" content="Cours, exercices et fiches de mathématiques." />
+
+  <!-- Styles minimalistes type Bibmath -->
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: #f4f4f9;
-      color: #333;
-      padding: 50px;
+    :root{
+      --bg:#f7f7fb;
+      --paper:#ffffff;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --primary:#0f6ab4;   /* bleu sobre */
+      --border:#e5e7eb;
+      --code:#0b1021;
     }
-    h1 {
-      color: #007acc;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+      color:var(--ink); background:var(--bg); line-height:1.6;
     }
-    .card {
-      background: white;
-      padding: 20px;
-      margin: 20px auto;
-      border-radius: 10px;
-      max-width: 500px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+    /* HEADER */
+    header{
+      position:sticky; top:0; z-index:10;
+      background:var(--paper); border-bottom:1px solid var(--border);
     }
+    .bar{
+      max-width:1200px; margin:0 auto; padding:12px 16px;
+      display:flex; align-items:center; gap:12px;
+    }
+    .brand{font-weight:800; letter-spacing:.2px; color:var(--primary); font-size:1.15rem}
+    .search{
+      margin-left:auto; display:flex; align-items:center; gap:8px;
+      background:#f2f5f8; border:1px solid var(--border); border-radius:8px; padding:6px 10px;
+      width:min(420px,60vw);
+    }
+    .search input{
+      flex:1; border:0; outline:0; background:transparent; font-size:.95rem;
+    }
+    .menu-btn{display:none}
+
+    /* LAYOUT */
+    .wrap{
+      max-width:1200px; margin:16px auto; padding:0 16px;
+      display:grid; grid-template-columns: 260px 1fr 260px; gap:16px;
+    }
+
+    /* SIDEBAR */
+    nav{
+      background:var(--paper); border:1px solid var(--border); border-radius:12px; padding:10px;
+      height:max-content; position:sticky; top:64px;
+    }
+    nav h3{margin:6px 8px 10px; font-size:1rem; color:var(--muted); text-transform:uppercase; letter-spacing:.06em}
+    .nav-list{list-style:none; padding:0; margin:0}
+    .nav-list li{margin:2px 0}
+    .nav-list a{
+      display:block; padding:8px 10px; border-radius:8px; text-decoration:none; color:var(--ink);
+    }
+    .nav-list a:hover{background:#eef5fb}
+    .nav-list a.active{background:#e8f2fc; color:#0a3f68; font-weight:600}
+
+    /* CONTENT */
+    main{
+      background:var(--paper); border:1px solid var(--border); border-radius:12px; padding:22px;
+      min-height:60vh;
+    }
+    main h1{margin-top:0; font-size:1.6rem}
+    main h2{margin-top:1.4em; border-bottom:1px solid var(--border); padding-bottom:.2em}
+    .theorem,.definition,.proposition,.exemple,.exercice,.remarque{
+      border-left:4px solid var(--primary); background:#f7fbff; padding:10px 12px; margin:14px 0; border-radius:6px;
+    }
+    .badge{
+      display:inline-block; font-size:.8rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em;
+      color:#0a3f68; background:#e8f2fc; padding:2px 8px; border-radius:999px; margin-right:6px;
+    }
+    pre,code{font-family: ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    pre{
+      background:#0f172a; color:#e5e7eb; padding:12px; border-radius:10px; overflow:auto;
+      border:1px solid #0b132b;
+    }
+    code{background:#f1f5f9; padding:2px 6px; border-radius:6px}
+
+    /* TOC (sommaire) */
+    aside{
+      background:var(--paper); border:1px solid var(--border); border-radius:12px; padding:12px;
+      height:max-content; position:sticky; top:64px;
+    }
+    .toc{list-style:none; padding:0; margin:0}
+    .toc li{margin:6px 0}
+    .toc a{text-decoration:none; color:var(--muted)}
+    .toc a:hover{color:var(--primary)}
+
+    /* FOOTER */
+    footer{max-width:1200px; margin:24px auto 40px; padding:0 16px; color:var(--muted); font-size:.9rem}
+
+    /* RESPONSIVE */
+    @media (max-width: 1020px){
+      .wrap{grid-template-columns: 220px 1fr}
+      aside{display:none}
+    }
+    @media (max-width: 780px){
+      .menu-btn{display:inline-flex; margin-right:4px}
+      .wrap{grid-template-columns:1fr}
+      nav{position:static; display:none}
+      nav.open{display:block}
+      .search{width:100%}
+    }
+
+    /* Liens */
+    a{color:var(--primary)}
+    a:visited{color:#0d5c9a}
   </style>
+
+  <!-- MathJax v3 pour LaTeX -->
+  <script>
+    window.MathJax = {
+      tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
+      svg: {fontCache: 'global'}
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
+
 <body>
-  <h1>Bienvenue 🎉</h1>
-  <div class="card">
-    <p>Ceci est ma première page hébergée sur <b>GitHub Pages</b> 🚀</p>
-    <p>Créée avec un simple fichier <code>index.html</code>.</p>
+  <!-- HEADER -->
+  <header>
+    <div class="bar">
+      <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+      <div class="brand">MathNotes</div>
+      <div class="search">
+        <span>🔎</span>
+        <input id="searchInput" type="search" placeholder="Rechercher (ex. dérivée, intégrale, suites…)" />
+      </div>
+    </div>
+  </header>
+
+  <!-- LAYOUT -->
+  <div class="wrap">
+    <!-- NAV -->
+    <nav id="sidebar">
+      <h3>Chapitres</h3>
+      <ul class="nav-list" id="navList">
+        <li><a class="active" href="#">Accueil</a></li>
+        <li><a href="algebre.html">Algèbre</a></li>
+        <li><a href="analyse.html">Analyse</a></li>
+        <li><a href="probabilites.html">Probabilités</a></li>
+        <li><a href="geometrie.html">Géométrie</a></li>
+        <li><a href="exercices.html">Exercices</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- CONTENT -->
+    <main id="content">
+      <h1>Bienvenue sur MathNotes</h1>
+      <p>Site type <em>Bibmath</em> : cours concis, exemples, exercices corrigés, formules rendues en LaTeX.</p>
+
+      <div class="definition">
+        <span class="badge">Définition</span>
+        On appelle <strong>limite</strong> de la suite $(u_n)$ le nombre $L$ tel que
+        pour tout $\varepsilon&gt;0$, il existe $N\in\mathbb{N}$ vérifiant
+        $$\forall n\ge N,\quad |u_n - L| \lt \varepsilon.$$
+      </div>
+
+      <div class="theorem" id="th1">
+        <span class="badge">Théorème</span>
+        Si $f$ est dérivable sur un intervalle ouvert $I$, alors $f$ est continue sur $I$.
+      </div>
+
+      <h2 id="derivation">Dérivation</h2>
+      <p>Formules usuelles :</p>
+      <ul>
+        <li>$(x^n)' = n x^{n-1}$ pour $n\in\mathbb{Z}$ ;</li>
+        <li>$(\sin x)'=\cos x$, $(\cos x)'=-\sin x$ ;</li>
+        <li>$(e^x)'=e^x$, $(\ln x)'=1/x$ (pour $x&gt;0$).</li>
+      </ul>
+
+      <div class="exemple">
+        <span class="badge">Exemple</span>
+        Dériver $f(x)=x^3\ln x$ pour $x&gt;0$.  
+        $$f'(x)=3x^2\ln x + x^3\cdot \frac{1}{x}=3x^2\ln x + x^2.$$
+      </div>
+
+      <h2 id="integrales">Intégrales</h2>
+      <p>Intégration par parties : si $u,v$ sont de classe $\mathcal{C}^1$,
+        $$\int_a^b u'v = [uv]_a^b - \int_a^b uv'.$$
+      </p>
+
+      <div class="exercice">
+        <span class="badge">Exercice</span>
+        Calculer $\displaystyle \int_0^1 x\ln(1+x)\,dx$.
+        <details><summary>Indice</summary>Poser $u=\ln(1+x)$, $v=\frac{x^2}{2}$.</details>
+      </div>
+
+      <h2 id="python">Bloc de code (Python)</h2>
+      <pre><code># Somme des chiffres sans str
+def somme_chiffres(n):
+    s = 0
+    while n:
+        s += n % 10
+        n //= 10
+    return s
+print(somme_chiffres(1000))  # 1</code></pre>
+    </main>
+
+    <!-- TOC -->
+    <aside>
+      <h3>Sommaire</h3>
+      <ul class="toc" id="toc">
+        <!-- rempli automatiquement -->
+      </ul>
+    </aside>
   </div>
+
+  <footer>
+    © <span id="y"></span> — Contenu pédagogique. Hébergé avec GitHub Pages.
+  </footer>
+
+  <!-- JS léger : menu mobile, recherche, sommaire auto -->
+  <script>
+    // Année
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Menu mobile
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    if (menuBtn){
+      menuBtn.addEventListener('click', ()=> sidebar.classList.toggle('open'));
+    }
+
+    // Sommaire auto depuis h2
+    const toc = document.getElementById('toc');
+    const heads = Array.from(document.querySelectorAll('main h2'));
+    heads.forEach(h=>{
+      const id = h.id || h.textContent.trim().toLowerCase().replace(/\s+/g,'-');
+      h.id = id;
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = '#'+id; a.textContent = h.textContent;
+      li.appendChild(a); toc.appendChild(li);
+    });
+
+    // Recherche : filtre les liens du menu latéral
+    const input = document.getElementById('searchInput');
+    const navList = document.getElementById('navList');
+    const items = Array.from(navList.querySelectorAll('li'));
+    input.addEventListener('input', e=>{
+      const q = e.target.value.toLowerCase().trim();
+      items.forEach(li=>{
+        const txt = li.textContent.toLowerCase();
+        li.style.display = txt.includes(q) ? '' : 'none';
+      });
+    });
+  </script>
 </body>
 </html>
